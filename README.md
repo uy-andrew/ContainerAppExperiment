@@ -103,3 +103,30 @@ az group delete `
     --resource-group $RESOURCE_GROUP
 ```
 
+## Workflow Diagram
+
+```mermaid
+flowchart TB
+  u1((User))
+  subgraph "Container App Environment"
+    direction TB
+    subgraph "Container App"
+      direction LR
+      f1["container-app-front (Blazor server side app)"]-.-f2["front (dapr sidecar)"]
+    end
+    subgraph "Container App"
+      direction LR
+      b1["container-app-back (Web API)"]-.-b2["backend (dapr sidecar)"]
+    end
+  end
+  u1--"Clicks on Fetch data in the website"-->f1
+  f1--"Calls backend using dapr client"-->f2
+  f2--"Dapr will call the dapr backend"-->b2
+  b2--"Dapr calls the actual API"-->b1
+  linkStyle 2 stroke:#f00,color:#f00
+  linkStyle 3 stroke:#f00,color:#f00
+  linkStyle 4 stroke:#f00,color:#f00
+  linkStyle 5 stroke:#f00,color:#f00
+  click f1 "https://github.com/uy-andrew/ContainerAppExperiment/tree/main/ContainerAppFront" _blank
+  click b1 "https://github.com/uy-andrew/ContainerAppExperiment/tree/main/ContainerAppBackend" _blank
+```
